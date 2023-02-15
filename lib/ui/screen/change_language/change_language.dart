@@ -54,6 +54,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
               } ,
                   itemCount: _languageItem.length),
             ),
+
             Common().ButtonStyle(textValue: 'Change password',color: Colors.blueAccent, icon: false, callback:(){
               Common().showToastSuccess(context, 'Change language success');
             } )

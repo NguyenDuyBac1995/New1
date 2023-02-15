@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.asset(ImageUtils.LOGO),
                   SizedBox(height: 10),
                   Text("Welcome to", style: TextStyles.textSize20),
+                  SizedBox(height: 10),
                   Text(
                     "Dirbbox",
                     style: TextStyles.textSize20

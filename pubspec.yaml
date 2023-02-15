@@ -63,6 +63,7 @@ dev_dependencies:
 #  #toast:
 #  fluttertoast: ^8.1.1
 
+
   #flutter_switch:
   flutter_switch: ^0.3.2
 

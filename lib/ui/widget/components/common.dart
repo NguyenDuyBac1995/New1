@@ -161,7 +161,6 @@ class Common {
       )),
     );
   }
-
   Padding ItemList({
     String? strName,
     bool value = false,
