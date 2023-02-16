@@ -1,3 +1,5 @@
+import 'package:bai_tap_figma1/ui/router/fluro_navigator.dart';
+import 'package:bai_tap_figma1/ui/router/router_generator.dart';
 import 'package:bai_tap_figma1/ui/widget/components/app_bar.dart';
 import 'package:bai_tap_figma1/ui/widget/components/dummy_data.dart';
 import 'package:bai_tap_figma1/ui/widget/utils/colors.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../widget/components/common.dart';
+import '../../widget/dialog/dialog_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,6 +18,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _textController = TextEditingController();
+  List<Folder> _folderList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _folderList = dummyData;
+  }
+
+  void _readFolder(String text) {
+    setState(() {
+      if (text.isEmpty) {
+        _folderList = dummyData;
+      } else {
+        _folderList = dummyData
+            .where(
+                (name) => name.name.toLowerCase().contains(text.toLowerCase()))
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +58,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   SizedBox(height: 10),
                   Common().textFromField(
-                      hintValue: 'Search Folder',
-                      icons: Icon(
-                        Icons.search,
-                        color: Colos.LOGINTEXT1,
-                      )),
+                      callBackSearch: (val)=>_readFolder(val),
+                    textStyle: TextStyles.textSize20,
+                    controller: _textController,
+                    hintValue: 'Search',
+                    icons: Icon(
+                    Icons.search,
+                    color: Colos.LOGINTEXT1,
+                  ),
+                  ),
                   SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,23 +104,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               Container(
-                padding: EdgeInsets.only(top: 150),
-                child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            mainAxisExtent: 128,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20),
-                    itemCount: 10,
-                    itemBuilder: (BuildContext ctx, index) {
-                      return Common().FolderFont(
-                          color: dummyData[index].color,
-                          name: dummyData[index].name,
-                          date: dummyData[index].date);
-                    }),
-              ),
+                  padding: EdgeInsets.only(top: 150),
+                  child: _folderList.isNotEmpty
+                      ? GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  mainAxisExtent: 128,
+                                  childAspectRatio: 3 / 2,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 20),
+                          itemCount: _folderList.length,
+                          itemBuilder: (BuildContext ctx, index) {
+                            return Common().FolderFont(
+                                color: ColorsList
+                                    .color[index % ColorsList.color.length],
+                                name: _folderList[index].name,
+                                date: _folderList[index].date);
+                          })
+                      : Center(
+                          child:
+                              Text('Not Empty', style: TextStyles.textSize24),
+                        )),
             ],
           ),
         ),
@@ -101,8 +136,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: EdgeInsets.only(bottom: 50, right: 30),
           child: FloatingActionButton(
-            onPressed: () {
-              Navigator.pop(context);
+            onPressed: () async {
+              List<String> _listName = _folderList.map((e) => e.name).toList();
+              Folder? newFolder =
+                  await openDialog(context, listName: _listName);
+              if (newFolder == null) return;
+              setState(() {
+                print(newFolder.name);
+                print(newFolder.date);
+                _folderList.add(newFolder);
+              });
             },
             child: Icon(
               Icons.add,
@@ -113,5 +156,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Future<Folder?> openDialog(BuildContext context,
+      {required List<String> listName}) async {
+    return showDialog<Folder>(
+        context: context,
+        builder: (context) {
+          return CreateFolderDialog(listName: listName);
+        });
   }
 }

@@ -168,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         itemBuilder: (BuildContext context, index) {
                           return Common().FolderFont(
                             name: dummyData[index].name,
-                            color: dummyData[index].color,
+                            color: ColorsList.color[index % ColorsList.color.length],
                             date: dummyData[index].date,
                           );
                         }),

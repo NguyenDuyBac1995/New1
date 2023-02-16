@@ -24,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _userName;
   String? _password;
   var value1;
+  final TextEditingController _textPassword1 = TextEditingController();
+
 
   _getData() async {
     print(_userName);
@@ -31,9 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
     value1 = prefs.getString('$_userName');
     print(value1);
     print(_password);
-    if(_fromKey.currentState!.validate()){
+    if (_fromKey.currentState!.validate()) {
       NavigatorUtils.push(context, RouterGenerator.routeHome);
-    }else {
+    } else {
       print('Form is valid');
     }
   }
@@ -43,12 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
     // TODO: implement initState
     super.initState();
     _textUserName.addListener(() {
-      _userName = _textUserName.text ;
+      _userName = _textUserName.text;
     });
     _textPassword.addListener(() {
       _password = _textPassword.text;
     });
   }
+
   final GlobalKey<FormState> _fromKey = GlobalKey<FormState>();
 
   bool _obscureText = true;
@@ -59,17 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Color(0xffFFFFFF),
       body: Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height * 1.1,
+        height: MediaQuery.of(context).size.height * 1.1,
         child: Stack(
           children: [
             Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 1.1,
+              width: MediaQuery.of(context).size.width * 1.1,
               child: Transform.scale(
                   scale: 1.12, child: Image.asset(ImageUtils.NEN)),
             ),
@@ -87,18 +84,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyles.textSize20
                         .copyWith(fontSize: 34, fontWeight: FontWeight.w700),
                   ),
-
                   _showLogin ? _outText() : _textFiled(),
                   SizedBox(height: 50),
                   Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     child: Text('Use Social Login',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Color(0xff1B1D28), fontSize: 12)),
+                        style:
+                            TextStyle(color: Color(0xff1B1D28), fontSize: 12)),
                   ),
                   SizedBox(height: 40),
                   Row(
@@ -119,10 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: 0,
                 right: 0,
                 child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     child: TextButton(
                       child: Text(
                         'Create an account',
@@ -133,8 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         NavigatorUtils.push(
                             context, RouterGenerator.routeCreateAccount);
                       },
-                    )
-                )),
+                    ))),
           ],
         ),
       ),
@@ -152,9 +141,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Text('business and individual to',
             style: TextStyles.textSize14.copyWith(fontSize: 17)),
-        Text('manage there data', style: TextStyles.textSize14.copyWith(fontSize: 17)),
+        Text('manage there data',
+            style: TextStyles.textSize14.copyWith(fontSize: 17)),
         SizedBox(height: 40),
-        Text('Join For Free', style: TextStyles.textSize14.copyWith(fontSize: 17)),
+        Text('Join For Free',
+            style: TextStyles.textSize14.copyWith(fontSize: 17)),
         SizedBox(height: 80),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,14 +172,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            Common().ButtonStyle(textValue: 'Sign in',width: 170,color: Colos.CA,
-            callback: (){
-              print('$_showLogin');
-              setState(() {
-                _showLogin = false;
-                print('$_showLogin');
-              });
-            })
+            Common().ButtonStyle(
+                textValue: 'Sign in',
+                width: 170,
+                color: Colos.CA,
+                callback: () {
+                  print('$_showLogin');
+                  setState(() {
+                    _showLogin = false;
+                    print('$_showLogin');
+                  });
+                })
           ],
         ),
       ],
@@ -209,96 +203,77 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyles.textItem,
               ),
               SizedBox(height: 10),
-              TextFormField(
-                style: TextStyles.textSize20,
-                controller: _textUserName,
-                decoration:InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 0.5, color: Colors.blue),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(width: 0.2, color: Color(0xffEEF2FE)),
-                      borderRadius: BorderRadius.circular(12)),
-                  prefixIcon: Icon(Icons.person),
-                ),
-                validator: (value)
-                {
-                  if(value!.isEmpty){
-                    return 'Please enter some text';
-                  }else{
-                    return value1 == null ?'Username or mail does not exist' : null ;
-                  }
-                },
-                onChanged: (val){
-                  Provider.of<UserName>(context, listen: false).setUserName(val);
-                },
-              ),
-              // Common().textFromField(
-              //     hintValue: 'Username or mail address',
-              //     controller: _textUserName,
-              //     icons: Icon(Icons.person),
-              //     validation: true,
-              //     validationError:  'Please enter some text',
-              //     validationCondition: value1 == null ? 'Username or mail does not exist' : null,
+              // TextFormField(
+              //   style: TextStyles.textSize20,
+              //   controller: _textUserName,
+              //   decoration:InputDecoration(
+              //     focusedBorder: OutlineInputBorder(
+              //       borderSide: BorderSide(width: 0.5, color: Colors.blue),
+              //       borderRadius: BorderRadius.circular(12),
+              //     ),
+              //     border: OutlineInputBorder(
+              //         borderSide: BorderSide(width: 0.2, color: Color(0xffEEF2FE)),
+              //         borderRadius: BorderRadius.circular(12)),
+              //     prefixIcon: Icon(Icons.person),
+              //   ),
+              //   validator: (value)
+              //   {
+              //     if(value!.isEmpty){
+              //       return 'Please enter some text';
+              //     }else{
+              //       return value1 == null ?'Username or mail does not exist' : null ;
+              //     }
+              //   },
+              //   onChanged: (val){
+              //     Provider.of<UserName>(context, listen: false).setUserName(val);
+              //   },
               // ),
-              SizedBox(height: 10),
+              Common().textFromField(
+                focus: true,
+                textStyle: TextStyles.textSize20,
+                callBackSearch: (val) =>
+                    Provider.of<UserName>(context, listen: false)
+                        .setUserName(val),
+                hintValue: 'Username or mail address',
+                controller: _textUserName,
+                icons: Icon(Icons.person),
+                validation: true,
+                validationError: 'Please enter some text',
+                validationCondition: (val) =>
+                    value1 == null ? 'Username or mail does not exist' : null,
+              ),
+              SizedBox(height: 14),
               Text(
                 "Password",
                 style: TextStyles.textItem,
               ),
-              SizedBox(height: 10,),
-              TextFormField(
-                style: TextStyles.textSize20,
+              SizedBox(
+                height: 10,
+              ),
+              Common().textFromField(
+                textStyle: TextStyles.textSize20,
                 controller: _textPassword,
+                hintValue: 'Password',
+                icons: Icon(Icons.lock),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    icon: Icon(_obscureText
+                        ? Icons.visibility_off
+                        : Icons.visibility)),
+                validation: true,
+                validationError: 'Please enter some text',
+                validationCondition: (val) =>
+                    value1 != _password ? 'Password wrong' : null,
                 obscureText: _obscureText,
-                decoration:InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 0.5, color: Colors.blue),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(width: 0.2, color: Color(0xffEEF2FE)),
-                      borderRadius: BorderRadius.circular(12)),
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                      icon: Icon(
-                          _obscureText ? Icons.visibility_off : Icons.visibility)),
-                ),
-                validator: (String? value)
-                {
-                  if(value!.isEmpty){
-                    return 'Please enter some text';
-                  }else{
-                    return value != value1 ? 'Password wrong': null;
-                  }
-                },
-                onChanged: (val){
-                  Provider.of<Password>(context, listen : false).setPassword(val);
+                callBackSearch: (String val) {
+                  Provider.of<Password>(context, listen: false)
+                      .setPassword(val);
                 },
               ),
-
-              // Common().textFromField(
-              //     controller: _textPassword,
-              //     hintValue: 'Password',
-              //     icons: Icon(Icons.lock),
-              //     suffixIcon: IconButton(onPressed: (){
-              //       setState(() {
-              //         _obscureText = !_obscureText;
-              //       });
-              //     },
-              //         icon: Icon( _obscureText ? Icons.visibility_off
-              //                 : Icons.visibility)),
-              //   validation: true,
-              //   validationError:  'Please enter some text',
-              //   validationCondition: value1 != _password ? 'Password wrong' : null,
-              //   obscureText: _obscureText,
-              // ),
             ],
           ),
         ),
@@ -338,15 +313,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 });
               },
             ),
-              Common().ButtonStyle(
-                width: 170,
-                color: Colos.CA,textValue: 'Sign in',
-                callback: (){
-                  setState(() {
-                    _getData();
-                  });
-                },
-              ),
+            Common().ButtonStyle(
+              width: 170,
+              color: Colos.CA,
+              textValue: 'Sign in',
+              callback: () {
+                setState(() {
+                  _getData();
+                });
+              },
+            ),
           ],
         ),
       ],
