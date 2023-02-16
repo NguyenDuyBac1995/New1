@@ -60,8 +60,7 @@ dev_dependencies:
   #page_transition:
   page_transition: ^2.0.9
 
-#  #toast:
-#  fluttertoast: ^8.1.1
+
 
 
   #flutter_switch:

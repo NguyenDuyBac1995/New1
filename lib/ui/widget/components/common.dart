@@ -18,39 +18,44 @@ class Common {
     Widget? icons,
     Widget? suffixIcon,
     FocusNode? fn,
-    VoidCallback? callBackSearch,
+    bool focus = false,
+    required Function(String value) callBackSearch,
     VoidCallback? callback,
-    String ? validationCondition,
+    Function(String value)? validationCondition,
   }) {
     TextFormField textFormField = TextFormField(
-      keyboardType: keyboardType,
-      style: TextStyles.textSize22,
+      autofocus: focus,
+      keyboardType: TextInputType.name,
+      style: textStyle,
       controller: controller,
       obscureText: obscureText,
       focusNode: fn,
       onChanged: (String? val) {
-           callBackSearch;
+        return callBackSearch(val!);
       },
       validator: (String? val) {
         if (validation!) {
           if (val!.isEmpty) {
             return validationError;
           }else{
-            return validationCondition;
+            return validationCondition!(val);
           }
         }
       },
       decoration: InputDecoration(
         hintText: hintValue,
-        hintStyle: TextStyles.textAppBar,
         prefixIcon: icons,
         suffixIcon: suffixIcon,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 0.5, color: Colors.blue),
+          borderRadius: BorderRadius.circular(12),
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(width: 0.5, color: Colors.blue),
           borderRadius: BorderRadius.circular(12),
         ),
-        border: OutlineInputBorder(
-            borderSide: BorderSide(width: 0.2, color: Color(0xffEEF2FE)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 0.5, color: Colors.black38),
             borderRadius: BorderRadius.circular(12)),
       ),
     );
@@ -95,7 +100,7 @@ class Common {
   }
 
   Container FolderFont({
-    int? color,
+    Color? color,
     String? name,
     String? date,
   }) {
@@ -103,7 +108,7 @@ class Common {
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
       decoration: BoxDecoration(
-          color: Color(color!).withOpacity(0.1),
+          color: color!.withOpacity(0.1),
           borderRadius: BorderRadius.circular(15)),
       child: Container(
           child: Column(
@@ -121,7 +126,7 @@ class Common {
                           padding: EdgeInsets.only(left: 1),
                           child: SvgPicture.asset(
                             'assets/svg/Vector (2).svg',
-                            color: Color(color),
+                            color: color,
                           )),
                     ),
                     Transform.scale(
@@ -130,7 +135,7 @@ class Common {
                         padding: EdgeInsets.only(top: 3),
                         child: SvgPicture.asset(
                           'assets/svg/Vector (1).svg',
-                          color: Color(color).withOpacity(0.65),
+                          color: color.withOpacity(0.65),
                         ),
                       ),
                     )
@@ -141,7 +146,7 @@ class Common {
                   scale: 1.2,
                   child: SvgPicture.asset(
                     'assets/svg/More Option.svg',
-                    color: Color(color),
+                    color: color,
                   ))
             ],
           ),
@@ -150,12 +155,12 @@ class Common {
           ),
           Text(
             name ?? '',
-            style: TextStyles.textAppBar.copyWith(color: Color(color)),
+            style: TextStyles.textAppBar.copyWith(color: color),
           ),
           SizedBox(height: 5),
           Text(
             date ?? "",
-            style: TextStyles.textSize13.copyWith(color: Color(color)),
+            style: TextStyles.textSize13.copyWith(color: color),
           )
         ],
       )),
@@ -243,15 +248,4 @@ class Common {
       ),
     );
   }
-  // void showToast(BuildContext context, String strToast){
-  //   Fluttertoast.showToast(
-  //       msg: strToast,
-  //       toastLength: Toast.LENGTH_SHORT,
-  //       gravity: ToastGravity.BOTTOM,
-  //       timeInSecForIosWeb: 4,
-  //       backgroundColor: Colors.blue,
-  //       textColor: Colors.white,
-  //       fontSize: 16,
-  //   );
-  // }
 }

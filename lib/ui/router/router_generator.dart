@@ -1,6 +1,7 @@
 import 'package:bai_tap_figma1/ui/screen/change_language/change_language.dart';
 import 'package:bai_tap_figma1/ui/screen/change_password/change_password_screen.dart';
 import 'package:bai_tap_figma1/ui/screen/create_account/create_account.dart';
+import 'package:bai_tap_figma1/ui/screen/home/create_folder.dart';
 import 'package:bai_tap_figma1/ui/screen/home/home_screen.dart';
 import 'package:bai_tap_figma1/ui/screen/login/login_screen.dart';
 import 'package:bai_tap_figma1/ui/screen/menu/side_menu_screen.dart';
@@ -20,6 +21,7 @@ DataBundle({this.id});
 
 class RouterGenerator{
   static const routeHome = "/home";
+  static const routeCreateFolder = '/createFolder';
   static const routeLogin = "/login";
   static const routeCreateAccount = '/createAccount';
   static const routeSplash = "/splash";
@@ -78,6 +80,12 @@ class RouterGenerator{
       case routeChangeLanguage:
         return PageTransition(
             child: ChangeLanguageScreen(),
+            type: PageTransitionType.rightToLeft,
+            duration: Duration(milliseconds: 300)
+        );
+      case routeCreateFolder:
+        return PageTransition(
+            child: CreateFolder(),
             type: PageTransitionType.rightToLeft,
             duration: Duration(milliseconds: 300)
         );
